@@ -1,0 +1,74 @@
+
+_______________________________Java persistence in Netbeans_____________________________________________
+
+import java.math.BigDecimal;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+/**
+ *
+ * @author dineshkumar.p
+ */
+public class CURDProgram {
+    
+    public static void main(String arg[]){
+            EntityManager em;
+            EntityManagerFactory emf =Persistence.createEntityManagerFactory("TestProjectPU");
+            em=emf.createEntityManager();
+            em.getTransaction().begin();
+            
+    //---------------------------------------------------------
+            
+//    Insert
+//        /*
+        Employees e=new Employees();
+        e.setEmployeeId(131);
+        e.setFirstName("Dinesh");
+        e.setLastName("Kumar");
+        e.setHireDate("12-DEC-1991");
+        e.setJobId("IT");
+        e.setManagerId(100);
+        e.setSalary(5500);
+        em.persist(e);
+        em.getTransaction().commit();
+//        */
+    //--------------------------------------------------------------------
+    
+    //Read
+        
+         
+        List<Employees> list=em.createNamedQuery("Employees.findAll", Employees.class).getResultList();
+        for(Employees rs:list){
+            System.out.println(rs.getEmployeeId());
+            System.out.println(rs.getFirstName());
+            System.out.println(rs.getLastName());
+            System.out.println(rs.getDepartmentId());
+            }
+        
+    //--------------------------------------------------------------------
+    
+        //Employees e=em.find(Employees.class, 1);
+      
+        Employees e=new Employees();
+        e.setEmployeeId(131);
+        e.setFirstName("Dinesh");
+        e.setLastName("Kumar");
+        e.setHireDate("12-DEC-1991");
+        e.setJobId("IT");
+        e.setManagerId(100);
+        e.setSalary(5500);
+        em.persist(e);
+        
+        em.merge(e);
+        em.getTransaction().commit();
+      //--------------------------------------------------------------------  
+       
+      Employees e=em.find(Employees.class, 1);
+      em.refresh(e);
+      em.getTransaction().commit();
+      
+
+//--------------------------------------------------------------------  
+      
+  
